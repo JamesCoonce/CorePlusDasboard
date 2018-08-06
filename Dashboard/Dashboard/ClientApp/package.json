@@ -1,0 +1,39 @@
+{
+  "name": "Dashboard",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@atlaskit/avatar": "^14.0.5",
+    "@atlaskit/button": "^9.0.4",
+    "@atlaskit/css-reset": "^3.0.1",
+    "@atlaskit/dropdown-menu": "^6.1.4",
+    "@atlaskit/dynamic-table": "^10.0.5",
+    "@atlaskit/flag": "^9.0.3",
+    "@atlaskit/icon": "^13.2.3",
+    "@atlaskit/inline-edit": "^7.0.3",
+    "@atlaskit/modal-dialog": "^6.0.5",
+    "@atlaskit/navigation": "^33.1.2",
+    "@atlaskit/page": "^8.0.2",
+    "@atlaskit/profilecard": "^4.0.4",
+    "@atlaskit/theme": "^5.1.2",
+    "bootstrap": "^3.3.7",
+    "react": "^16.0.0",
+    "react-bootstrap": "^0.31.5",
+    "react-dom": "^16.0.0",
+    "react-redux": "^5.0.6",
+    "react-router-bootstrap": "^0.24.4",
+    "react-router-dom": "^4.2.2",
+    "react-router-redux": "^5.0.0-alpha.8",
+    "react-scripts": "1.0.17",
+    "redux": "^3.7.2",
+    "redux-thunk": "^2.2.0",
+    "rimraf": "^2.6.2",
+    "styled-components": "^3.3.3"
+  },
+  "scripts": {
+    "start": "rimraf ./build && react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  }
+}
