@@ -25,7 +25,6 @@ export default class PractitionerDashboard extends Component {
       <ContentWrapper>
         <PageTitle>Settings</PageTitle>
         <h1>{this.props.match.params.id}</h1>
-        <h2>{this.state.practitioner.name}</h2>
       </ContentWrapper>
     );
   }

@@ -2,32 +2,23 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Dashboard.Data;
 using Dashboard.Models;
 using FizzWare.NBuilder;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Dashboard.Controllers
 {
     [Route("api/[controller]")]
     public class SampleDataController : Controller
     {
-        private static string[] Summaries = new[]
-        {
-            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-        };
+        private readonly ApplicationDbContext _context;
 
-        [HttpGet("[action]")]
-        public IEnumerable<WeatherForecast> WeatherForecasts(int startDateIndex)
+        public SampleDataController(ApplicationDbContext context)
         {
-            var rng = new Random();
-            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
-            {
-                DateFormatted = DateTime.Now.AddDays(index + startDateIndex).ToString("d"),
-                TemperatureC = rng.Next(-20, 55),
-                Summary = Summaries[rng.Next(Summaries.Length)]
-            });
+            _context = context;
         }
-
         [HttpGet("[action]")]
         public IEnumerable<Appointment> Appointments()
         {
@@ -53,33 +44,37 @@ namespace Dashboard.Controllers
         [HttpGet("[action]")]
         public IEnumerable<Practitioner> Practitioners()
         {
-            List<Practitioner> practitioners = new List<Practitioner>
-            {
-                new Practitioner { PractitionerId = 101, Name = "Advent Medical"},
-                new Practitioner { PractitionerId = 102, Name = "Tampa General"},
-                new Practitioner { PractitionerId = 103, Name = "Florida Medcare"},
-                new Practitioner { PractitionerId = 104, Name = "Australian Med Corps"},
-                new Practitioner { PractitionerId = 105, Name = "Great Hospital"},
-                new Practitioner { PractitionerId = 106, Name = "UK MD"},
-                new Practitioner { PractitionerId = 107, Name = "Tokyo Hospital"},
-            };
+            //List<Practitioner> practitioners = new List<Practitioner>
+            //{
+            //    new Practitioner { PractitionerId = 101, Name = "Advent Medical"},
+            //    new Practitioner { PractitionerId = 102, Name = "Tampa General"},
+            //    new Practitioner { PractitionerId = 103, Name = "Florida Medcare"},
+            //    new Practitioner { PractitionerId = 104, Name = "Australian Med Corps"},
+            //    new Practitioner { PractitionerId = 105, Name = "Great Hospital"},
+            //    new Practitioner { PractitionerId = 106, Name = "UK MD"},
+            //    new Practitioner { PractitionerId = 107, Name = "Tokyo Hospital"},
+            //};
 
-            return practitioners;
+            return _context.Practitioners;
         }
 
-        public class WeatherForecast
+        [HttpGet("practitioners/{id}")]
+        public async Task<IActionResult> GetPractitioner([FromRoute] int id)
         {
-            public string DateFormatted { get; set; }
-            public int TemperatureC { get; set; }
-            public string Summary { get; set; }
-
-            public int TemperatureF
+            if (!ModelState.IsValid)
             {
-                get
-                {
-                    return 32 + (int)(TemperatureC / 0.5556);
-                }
+                return BadRequest(ModelState);
             }
+
+            var practitioner = await _context.Practitioners.SingleOrDefaultAsync(m => m.PractitionerId == id);
+
+            if (practitioner == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(practitioner);
         }
+
     }
 }
